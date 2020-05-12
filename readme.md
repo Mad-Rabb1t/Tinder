@@ -1,5 +1,4 @@
-### caption
+The MVP of a dating app similar to Tinder
 
-body
-
-[alexr github link](https://github.com/alexr007)
+In collaboration with https://github.com/iturkan6
+[a link] https://github.com/iturkan6
