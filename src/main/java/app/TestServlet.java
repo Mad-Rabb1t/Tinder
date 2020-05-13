@@ -18,7 +18,7 @@ public class TestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String result = new BufferedReader(new FileReader(new File("C:\\Users\\iturk\\Desktop\\IBA\\Tinder\\src\\main\\java\\app\\content\\profile.html")))
+        String result = new BufferedReader(new FileReader(new File("src\\main\\java\\app\\content\\like-page.html")))
                 .lines().collect(Collectors.joining("\n"));
         try(PrintWriter pw = resp.getWriter()) {
             pw.print(result);
@@ -27,6 +27,11 @@ public class TestServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        String param = req.getParameter("Button");
+        CheckLike check = new CheckLike();
+        String result = check.check(param);
+        try(PrintWriter pw = resp.getWriter()) {
+            pw.print(result);
+        }
     }
 }
