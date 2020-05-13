@@ -15,7 +15,7 @@ public class TestServlet extends HttpServlet {
     private final TemplateEngine engine;
 
     List<String> users = Arrays.asList("Turkan", "Kamran", "Emin", "Leman");
-
+    int n = 0;
 
     public TestServlet(TemplateEngine engine) {
         this.engine = engine;
@@ -40,9 +40,10 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> data = new HashMap<>();
-        data.put("Name", "Turkan");
-        engine.render("like-page.ftl", data, resp);
-
+        if(n < users.size()) {
+            data.put("Name", users.get(n));
+            engine.render("like-page.ftl", data, resp);
+        }else n = 0;
 
 //        try(PrintWriter pw = resp.getWriter()) {
 //            pw.print(result);
@@ -54,8 +55,9 @@ public class TestServlet extends HttpServlet {
         String param = req.getParameter("Button");
         CheckLike check = new CheckLike();
         String result = check.check(param);
-        try(PrintWriter pw = resp.getWriter()) {
-            pw.print(result);
-        }
+        resp.sendRedirect("/users");
+//        try (PrintWriter pw = resp.getWriter()) {
+//            pw.print(result);
+//        }
     }
 }
