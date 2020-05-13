@@ -6,9 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.*;
+import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class TestServlet extends HttpServlet {
+
+    private final TemplateEngine engine;
+
+    List<String> users = Arrays.asList("Turkan", "Kamran", "Emin", "Leman");
+
+
+    public TestServlet(TemplateEngine engine) {
+        this.engine = engine;
+    }
+
 //    @Override
 //    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        try(PrintWriter pw = resp.getWriter()) {
@@ -16,13 +28,25 @@ public class TestServlet extends HttpServlet {
 //        }
 //    }
 
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String result = new BufferedReader(new FileReader(new File("src\\main\\java\\app\\content\\like-page.html")))
+//                .lines().collect(Collectors.joining("\n"));
+//        try(PrintWriter pw = resp.getWriter()) {
+//            pw.print(result);
+//        }
+//    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String result = new BufferedReader(new FileReader(new File("src\\main\\java\\app\\content\\like-page.html")))
-                .lines().collect(Collectors.joining("\n"));
-        try(PrintWriter pw = resp.getWriter()) {
-            pw.print(result);
-        }
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("Name", "Turkan");
+        engine.render("like-page.ftl", data, resp);
+
+
+//        try(PrintWriter pw = resp.getWriter()) {
+//            pw.print(result);
+//        }
     }
 
     @Override
