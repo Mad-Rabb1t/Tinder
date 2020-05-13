@@ -21,10 +21,11 @@
     <div class="card">
         <div class="card-body">
             <form method="post">
+
             <div class="row">
                 <div class="col-12 col-lg-12 col-md-12 text-center">
-                    <img src="https://robohash.org/68.186.255.198.png" alt="" class="mx-auto rounded-circle img-fluid">
-                    <h3 class="mb-0 text-truncated">${Name}</h3>
+                    <img src="${user.photo}" alt="" class="mx-auto rounded-circle img-fluid">
+                    <h3 class="mb-0 text-truncated">${user.name}</h3>
                     <br>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -44,6 +45,7 @@
                 </div>
                 <!--/col-->
             </div>
+
             </form>
             <!--/row-->
         </div>
