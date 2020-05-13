@@ -9,7 +9,8 @@ public class ServerApp {
         Server server = new Server(9000);
         ServletContextHandler handler = new ServletContextHandler();
 
-        handler.addServlet(new ServletHolder(new TestServlet()), "/users");
+        TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
+        handler.addServlet(new ServletHolder(new TestServlet(engine)), "/users");
         server.setHandler(handler);
 
         server.start();
