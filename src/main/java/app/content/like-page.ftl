@@ -25,6 +25,8 @@
             <div class="row">
                 <div class="col-12 col-lg-12 col-md-12 text-center">
                     <img src="${user.photo}" alt="" class="mx-auto rounded-circle img-fluid">
+                    <input readonly type="hidden" name="Photo" value="${user.photo}">
+                    <input readonly type="hidden" name="User" value="${user.name}">
                     <h3 class="mb-0 text-truncated">${user.name}</h3>
                     <br>
                 </div>
