@@ -41,10 +41,6 @@ public class ProfilesServlet extends HttpServlet {
                 DAO.likedUser.add(curUser);
             }
         }
-            if (DAO.users.size() == usersCounter) {
-                resp.sendRedirect("/liked");
-            } else {
-                resp.sendRedirect("/users");
-            }
+        resp.sendRedirect(DAO.users.size() == usersCounter ? "/liked" : "/users");
         }
     }
