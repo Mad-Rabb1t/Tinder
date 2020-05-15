@@ -12,6 +12,7 @@ public class ServerApp {
         TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
         handler.addServlet(new ServletHolder(new ProfilesServlet(engine)), "/users");
         handler.addServlet(new ServletHolder(new LikedServlet(engine)), "/liked");
+        handler.addServlet(new ServletHolder(new ReferenceServlet("css")), "/css/*");
         server.setHandler(handler);
 
         server.start();
