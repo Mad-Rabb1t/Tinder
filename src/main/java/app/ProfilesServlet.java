@@ -34,9 +34,10 @@ public class ProfilesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String button = req.getParameter("Button");
         if(CheckLike.check(button)) {
+            int id = Integer.parseInt(req.getParameter("Id"));
             String userName = req.getParameter("User");
             String photo = req.getParameter("Photo");
-            User curUser = new User(userName, photo);
+            User curUser = new User(id,userName, photo);
             if (!DAO.likedUser.contains(curUser)) {
                 DAO.likedUser.add(curUser);
             }
