@@ -27,6 +27,7 @@
                     <img src="${user.photo}" alt="" class="mx-auto rounded-circle img-fluid">
                     <input readonly type="hidden" name="Photo" value="${user.photo}">
                     <input readonly type="hidden" name="User" value="${user.name}">
+                    <input readonly type="hidden" name="Id" value="${user.id}">
                     <h3 class="mb-0 text-truncated">${user.name}</h3>
                     <br>
                 </div>

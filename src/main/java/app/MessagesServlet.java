@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MessagesServlet extends HttpServlet {
     private final TemplateEngine engine;
@@ -20,6 +21,10 @@ public class MessagesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        int userId = Integer.parseInt(req.getParameter("id"));
+        User user = DAO.users.stream().filter(u -> u.id == userId).findFirst().orElseThrow(RuntimeException::new);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("user", user);
+        engine.render("chat.flt", data, resp);
     }
 }
