@@ -4,12 +4,19 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import java.sql.Connection;
+
 public class ServerApp {
     public static void main(String[] args) throws Exception {
         Server server = new Server(9000);
         ServletContextHandler handler = new ServletContextHandler();
 
-        DbSetup.execute("jdbc:postgresql://localhost:5432/postgres", "postgres", "password", true);
+        // Remove before deployment!!!
+        String USER_NAME = "postgres";
+        String PASSWORD = "postgres";
+        String URL = "jdbc:postgresql://localhost:5432/postgres";
+        DbSetup.execute(URL, USER_NAME, PASSWORD, true);
+        Connection con = DbSetup.createConnection(URL, USER_NAME, PASSWORD);
 
         TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
         handler.addServlet(new ServletHolder(new ProfilesServlet(engine)), "/users");

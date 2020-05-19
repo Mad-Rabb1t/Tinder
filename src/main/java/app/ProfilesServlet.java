@@ -2,6 +2,8 @@ package app;
 
 
 
+import app.Dao.TestData;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +25,8 @@ public class ProfilesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HashMap<String, Object> data = new HashMap<>();
 
-        if (usersCounter < DAO.users.size()) {
-            data.put("user", DAO.users.get(usersCounter));
+        if (usersCounter < TestData.users.size()) {
+            data.put("user", TestData.users.get(usersCounter));
             engine.render("like-page.ftl", data, resp);
             usersCounter++;
         }
@@ -38,10 +40,10 @@ public class ProfilesServlet extends HttpServlet {
             String userName = req.getParameter("User");
             String photo = req.getParameter("Photo");
             User curUser = new User(id,userName, photo);
-            if (!DAO.likedUser.contains(curUser)) {
-                DAO.likedUser.add(curUser);
+            if (!TestData.likedUser.contains(curUser)) {
+                TestData.likedUser.add(curUser);
             }
         }
-        resp.sendRedirect(DAO.users.size() == usersCounter ? "/liked" : "/users");
+        resp.sendRedirect(TestData.users.size() == usersCounter ? "/liked" : "/users");
         }
     }

@@ -1,5 +1,7 @@
 package app;
 
+import app.Dao.TestData;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +18,7 @@ public class LikedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         HashMap<String, Object> data = new HashMap<>();
-        data.put("likedUsers", DAO.likedUser);
+        data.put("likedUsers", TestData.likedUser);
         engine.render("people-list.ftl", data, resp);
     }
 
