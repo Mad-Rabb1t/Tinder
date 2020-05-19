@@ -9,7 +9,7 @@ public class ServerApp {
         Server server = new Server(9000);
         ServletContextHandler handler = new ServletContextHandler();
 
-        DbSetup.execute("jdbc:postgresql://localhost:5432/postgres", "postgres", "password", true);
+//        DbSetup.execute("jdbc:postgresql://localhost:5432/postgres", "postgres", "password", true);
 
         TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
         handler.addServlet(new ServletHolder(new ProfilesServlet(engine)), "/users");
