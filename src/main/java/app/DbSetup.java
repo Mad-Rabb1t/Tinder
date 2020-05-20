@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class DbSetup {
 
-
   public static Connection createConnection(String url, String username, String password) throws SQLException {
     return DriverManager.getConnection(url, username, password);
   }
@@ -18,7 +17,6 @@ public class DbSetup {
   public static Connection createConnection(String jdbcUrl) throws SQLException {
     return DriverManager.getConnection(jdbcUrl);
   }
-
 
   static void execute(String uri, String user, String password) {
     execute(uri, user, password, false);

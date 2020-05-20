@@ -15,7 +15,7 @@ public class ServerApp {
         String USER_NAME = "postgres";
         String PASSWORD = "postgres";
         String URL = "jdbc:postgresql://localhost:5432/postgres";
-        DbSetup.execute(URL, USER_NAME, PASSWORD);
+//        DbSetup.execute(URL, USER_NAME, PASSWORD);
         Connection con = DbSetup.createConnection(URL, USER_NAME, PASSWORD);
 
         TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");

@@ -1,6 +1,8 @@
 package app;
 
 import app.Dao.UsersDao;
+import lombok.SneakyThrows;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -35,21 +37,18 @@ public class LoginServlet extends HttpServlet {
         engine.render("login.ftl", data, resp);
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = req.getParameter("login");
         String pass = req.getParameter("password");
         UsersDao dao = new UsersDao(con);
-        try {
-            if(dao.credentialsCorrect(login, pass)) {
-                Cookie c = new Cookie("userId",  String.valueOf(dao.getUserId(login)));
-                c.setMaxAge(60*60*2);
-                resp.addCookie(c);
-                resp.sendRedirect("/users");
-            }
-            else resp.sendRedirect("/login?error=true");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(dao.credentialsCorrect(login, pass)) {
+            Cookie c = new Cookie("userId",  String.valueOf(dao.getUserId(login)));
+            c.setMaxAge(60*60*2);
+            resp.addCookie(c);
+            resp.sendRedirect("/users");
         }
+        else resp.sendRedirect("/login?error=true");
     }
 }
