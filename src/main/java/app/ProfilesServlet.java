@@ -4,6 +4,7 @@ package app;
 
 import app.Dao.LikesDao;
 import app.Dao.UsersDao;
+import lombok.SneakyThrows;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,35 +28,30 @@ public class ProfilesServlet extends HttpServlet {
         this.con = con;
     }
 
+
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         UsersDao usersDao = new UsersDao(con);
         HashMap<String, Object> data = new HashMap<>();
 
-        try {
-            List<User> users = usersDao.getAllExcept(CookieFilter.getCurrentUserId(req));
-            usersAmount = users.size();
-            if (usersCounter < users.size()) {
-                data.put("user", users.get(usersCounter));
-                engine.render("like-page.ftl", data, resp);
-                usersCounter++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        List<User> users = usersDao.getAllExcept(CookieFilter.getCurrentUserId(req));
+        usersAmount = users.size();
+        if (usersCounter < users.size()) {
+            data.put("user", users.get(usersCounter));
+            engine.render("like-page.ftl", data, resp);
+            usersCounter++;
         }
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         LikesDao likesDao = new LikesDao(con);
         String button = req.getParameter("Button");
         int whom = Integer.parseInt(req.getParameter("Id"));
         int who = CookieFilter.getCurrentUserId(req);
-        try {
-            likesDao.add(who, whom, CheckAction.check(button));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        likesDao.add(who, whom, CheckAction.check(button));
         resp.sendRedirect(usersAmount == usersCounter ? "/liked" : "/users");
         }
     }
