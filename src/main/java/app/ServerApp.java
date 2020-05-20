@@ -15,12 +15,13 @@ public class ServerApp {
         String USER_NAME = "postgres";
         String PASSWORD = "postgres";
         String URL = "jdbc:postgresql://localhost:5432/postgres";
-        DbSetup.execute(URL, USER_NAME, PASSWORD, true);
+        DbSetup.execute(URL, USER_NAME, PASSWORD);
         Connection con = DbSetup.createConnection(URL, USER_NAME, PASSWORD);
 
         TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
-        handler.addServlet(new ServletHolder(new ProfilesServlet(engine)), "/users");
-        handler.addServlet(new ServletHolder(new LikedServlet(engine)), "/liked");
+        handler.addServlet(new ServletHolder(new LoginServlet(engine, con)), "/login");
+        handler.addServlet(new ServletHolder(new ProfilesServlet(engine, con)), "/users");
+        handler.addServlet(new ServletHolder(new LikedServlet(engine, con)), "/liked");
         handler.addServlet(new ServletHolder(new MessagesServlet(engine)), "/messages");
         handler.addServlet(new ServletHolder(new ReferenceServlet("css")), "/css/*");
         server.setHandler(handler);

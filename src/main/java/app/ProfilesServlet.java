@@ -2,48 +2,60 @@ package app;
 
 
 
-import app.Dao.TestData;
+import app.Dao.LikesDao;
+import app.Dao.UsersDao;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 
 public class ProfilesServlet extends HttpServlet {
 
     private final TemplateEngine engine;
+    private final Connection con;
 
     int usersCounter = 0;
+    Integer usersAmount = 0;
 
-    public ProfilesServlet(TemplateEngine engine) {
+    public ProfilesServlet(TemplateEngine engine, Connection con) {
         this.engine = engine;
+        this.con = con;
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        UsersDao usersDao = new UsersDao(con);
         HashMap<String, Object> data = new HashMap<>();
 
-        if (usersCounter < TestData.users.size()) {
-            data.put("user", TestData.users.get(usersCounter));
-            engine.render("like-page.ftl", data, resp);
-            usersCounter++;
+        try {
+            List<User> users = usersDao.getAllExcept(CookieFilter.getCurrentUserId(req));
+            usersAmount = users.size();
+            if (usersCounter < users.size()) {
+                data.put("user", users.get(usersCounter));
+                engine.render("like-page.ftl", data, resp);
+                usersCounter++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LikesDao likesDao = new LikesDao(con);
         String button = req.getParameter("Button");
-        if(CheckLike.check(button)) {
-            int id = Integer.parseInt(req.getParameter("Id"));
-            String userName = req.getParameter("User");
-            String photo = req.getParameter("Photo");
-            User curUser = new User(id,userName, photo);
-            if (!TestData.likedUser.contains(curUser)) {
-                TestData.likedUser.add(curUser);
-            }
+        int whom = Integer.parseInt(req.getParameter("Id"));
+        int who = CookieFilter.getCurrentUserId(req);
+        try {
+            likesDao.add(who, whom, CheckAction.check(button));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        resp.sendRedirect(TestData.users.size() == usersCounter ? "/liked" : "/users");
+        resp.sendRedirect(usersAmount == usersCounter ? "/liked" : "/users");
         }
     }

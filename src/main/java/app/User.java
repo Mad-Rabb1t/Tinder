@@ -3,7 +3,7 @@ package app;
 import java.util.Objects;
 
 public class User {
-    int id;
+    public int id;
     public String name;
     public String photo;
 
