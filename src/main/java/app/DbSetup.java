@@ -1,6 +1,6 @@
 package app;
 
-import lombok.SneakyThrows;
+
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 
