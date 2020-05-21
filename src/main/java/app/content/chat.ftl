@@ -17,6 +17,7 @@
 </head>
 <body>
 
+
 <div class="container">
     <div class="row">
         <div class="chat-main col-6 offset-3">
@@ -24,6 +25,7 @@
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
                         <i class="fa fa-comment"></i>
+                        <input readonly type="hidden" name="userId" value="${user.id}">
                         <h6 class="ml-1 mb-0">${user.name}</h6>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
@@ -121,8 +123,10 @@
                             <i class="fa fa-smile-o"></i>
                         </div>
                         <div class="col-md-7 pl-0">
-                            <input type="text" class="border-0" placeholder="Send message" />
-                            <button> Send </button>
+                            <label>
+                                <input type="text" name="message" class="border-0" placeholder="Send message" />
+                            </label>
+                            <button class="btn btn-outline-success float-right"> Send </button>
                         </div>
                         <div class="col-md-3 text-right options-right">
                             <i class="fa fa-picture-o mr-2"></i>
