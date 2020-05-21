@@ -20,11 +20,6 @@ public class LikedServlet extends HttpServlet {
     private final TemplateEngine engine;
     private final Connection con;
 
-//    public LikedServlet(TemplateEngine engine, Connection con) {
-//        this.engine = engine;
-//        this.con = con;
-//    }
-
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

@@ -46,12 +46,15 @@ public class ProfilesServlet extends HttpServlet {
 
     @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         LikesDao likesDao = new LikesDao(con);
-        String button = req.getParameter("Button");
         int whom = Integer.parseInt(req.getParameter("Id"));
         int who = CookieFilter.getCurrentUserId(req);
-        likesDao.add(who, whom, CheckAction.check(button));
-        resp.sendRedirect(usersAmount == usersCounter ? "/liked" : "/users");
+        int action = CheckAction.check(req.getParameter("Button"));
+        if (likesDao.getLikedIdsByUser(who).contains(whom)) {
+            likesDao.modifyAction(who, whom, action);
         }
+        else likesDao.add(who, whom, action);
+        resp.sendRedirect(usersAmount == usersCounter ? "/liked" : "/users");
     }
+}

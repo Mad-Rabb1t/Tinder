@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<form method="post">
+
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
@@ -47,9 +47,11 @@
                                         Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
                                     </td>
                                     <td class="align-middle">
+                                        <form method="post">
                                         <button  class="btn btn-outline-success btn-block" name="Button" value="${likedUser.id}">
                                             Chat
                                         </button>
+                                        </form>
                                     </td>
                                 </tr>
                             </#list>
