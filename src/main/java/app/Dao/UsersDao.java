@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,11 +17,12 @@ public class UsersDao {
 
     private final Connection con;
     private final static String SQL_getAllUsers = "select * from users";
-    final String SQL_GetUserByUsername = "select id from users where name = ?";
-    final String SQL_GetUserByLogin = "select id from users where login = ?";
-    final String SQL_GetUserById = "select name, photo from users where id = ?";
-    final String SQL_ValidateUser = "select id from users where login = ? and password = ?";
-    final String SQL_AddUser = "insert into users (login, password, name, photo) values (?, ?, ?, ?)"; //?
+    private final static String SQL_GetUserByUsername = "select id from users where name = ?";
+    private final static String SQL_GetUserByLogin = "select id from users where login = ?";
+    private final static String SQL_GetUserById = "select name, photo from users where id = ?";
+    private final static String SQL_ValidateUser = "select id from users where login = ? and password = ?";
+    private final static String SQL_AddUser = "insert into users (login, password, name, photo) values (?, ?, ?, ?)";
+    private final static String SQL_SetLastLogin = "update users set date = ? where id = ? ";
 
     public UsersDao(Connection connection) {
         this.con = connection;
@@ -29,12 +32,12 @@ public class UsersDao {
         ArrayList<User> users = new ArrayList<>();
         PreparedStatement st = con.prepareStatement(SQL_getAllUsers);
         ResultSet rs = st.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
             users.add(
                     new User(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("photo")
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("photo")
                     )
             );
         }
@@ -85,4 +88,12 @@ public class UsersDao {
         st.setString(4, photo);
         st.execute();
     }
+
+    public void setLastLoginNow(int id) throws SQLException {
+        PreparedStatement st = con.prepareStatement(SQL_SetLastLogin);
+        st.setString(1, DateTimeFormatter.ofPattern("dd/MM/YYYY, HH:mm").format(LocalDateTime.now()));
+        st.setInt(2, id);
+        st.execute();
+    }
+
 }

@@ -43,7 +43,10 @@ public class LikedServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String userId = req.getParameter("Button");
-        resp.sendRedirect("/messages?id=" + userId);
+        String button = req.getParameter("Button");
+        if (button.equals("logout")) {
+            resp.sendRedirect("/logout");
+        } else
+            resp.sendRedirect("/messages?id=" + button);
     }
 }
