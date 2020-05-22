@@ -13,14 +13,15 @@ public class ServerApp {
 
         // Remove before deployment!!!
         String USER_NAME = "postgres";
-        String PASSWORD = "postgres";
+        String PASSWORD = "syun99";
         String URL = "jdbc:postgresql://localhost:5432/postgres";
         DbSetup.execute(URL, USER_NAME, PASSWORD);
         Connection con = DbSetup.createConnection(URL, USER_NAME, PASSWORD);
 
         TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
         handler.addServlet(new ServletHolder(new LoginServlet(engine, con)), "/login");
-        handler.addServlet(new ServletHolder(new LoginServlet(engine, con)), "/registration");
+        handler.addServlet(new ServletHolder(new LogoutServlet(con)), "/logout");
+        handler.addServlet(new ServletHolder(new RegistrationServlet(engine, con)), "/registration");
         handler.addServlet(new ServletHolder(new ProfilesServlet(engine, con)), "/users");
         handler.addServlet(new ServletHolder(new LikedServlet(engine, con)), "/liked");
         handler.addServlet(new ServletHolder(new MessagesServlet(engine, con)), "/messages");

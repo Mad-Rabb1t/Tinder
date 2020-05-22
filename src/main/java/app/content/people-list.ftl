@@ -57,12 +57,14 @@
                             </#list>
                             </tbody>
                         </table>
+                        <form method="post">
+                        <button  class="btn btn-outline-danger btn-block" name="Button" value="logout">Logout</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</form>
 </body>
 </html>
