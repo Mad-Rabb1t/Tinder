@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="img/tinder_logo.jpg">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Login page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,9 +19,9 @@
 
 <body class="text-center">
     <form class="form-signin" method="post">
-        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">${error}</h1>
+        <img class="rounded-circle" src="img/tinder_logo.jpg" alt="" width="280" height="233">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1 class="h4 mb-3 font-weight-normal " style="color: #ff0007">${error}</h1>
         <label for="inputEmail" class="sr-only">Login</label>
         <input type="text" id="inputEmail" class="form-control" placeholder="Login" name="login"  autofocus>
         <label for="inputPassword" class="sr-only">Password</label>

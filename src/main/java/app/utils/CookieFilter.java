@@ -1,6 +1,5 @@
-package app;
+package app.utils;
 
-import com.sun.deploy.net.HttpRequest;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -34,7 +33,7 @@ public class CookieFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 

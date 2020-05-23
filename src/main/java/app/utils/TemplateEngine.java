@@ -1,4 +1,4 @@
-package app;
+package app.utils;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;

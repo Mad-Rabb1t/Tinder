@@ -1,4 +1,4 @@
-package app;
+package app.servlets;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
