@@ -1,7 +1,10 @@
-package app;
+package app.servlets;
 
 import app.Dao.LikesDao;
 import app.Dao.UsersDao;
+import app.entities.User;
+import app.utils.CookieFilter;
+import app.utils.TemplateEngine;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 

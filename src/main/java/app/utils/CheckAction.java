@@ -1,4 +1,4 @@
-package app;
+package app.utils;
 
 public class CheckAction {
     public static int check(String value) {

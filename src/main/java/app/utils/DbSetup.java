@@ -1,4 +1,4 @@
-package app;
+package app.utils;
 
 
 import org.flywaydb.core.Flyway;
@@ -18,11 +18,11 @@ public class DbSetup {
     return DriverManager.getConnection(jdbcUrl);
   }
 
-  static void execute(String uri, String user, String password) {
+  public static void execute(String uri, String user, String password) {
     execute(uri, user, password, false);
   }
 
-  static void execute(String uri, String user, String password, boolean clear) {
+  public static void execute(String uri, String user, String password, boolean clear) {
     FluentConfiguration config = new FluentConfiguration()
         .dataSource(uri, user, password);
     Flyway flyway = new Flyway(config);

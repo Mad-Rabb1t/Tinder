@@ -1,6 +1,7 @@
-package app;
+package app.servlets;
 
 import app.Dao.UsersDao;
+import app.utils.TemplateEngine;
 import lombok.SneakyThrows;
 
 import javax.servlet.http.Cookie;

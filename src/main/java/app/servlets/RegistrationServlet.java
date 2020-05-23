@@ -1,13 +1,12 @@
-package app;
+package app.servlets;
 
 import app.Dao.UsersDao;
+import app.utils.TemplateEngine;
 import lombok.SneakyThrows;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
 
@@ -22,7 +21,7 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         HashMap<String, Object> data = new HashMap<>();
         String mes = "Login is already used";
         try {
@@ -37,7 +36,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         UsersDao usersDao = new UsersDao(con);
         String login = req.getParameter("login");
         String pas = req.getParameter("password");
@@ -45,7 +44,7 @@ public class RegistrationServlet extends HttpServlet {
         String photo = req.getParameter("photo");
         if (usersDao.loginReserved(login)) {
             resp.sendRedirect("/registration?error=loginReserved");
-        } else{
+        } else {
             usersDao.add(login, pas, name, photo);
             resp.sendRedirect("/login");
         }

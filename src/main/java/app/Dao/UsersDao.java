@@ -1,7 +1,7 @@
 package app.Dao;
 
 
-import app.User;
+import app.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,6 @@ public class UsersDao {
 
     private final Connection con;
     private final static String SQL_getAllUsers = "select * from users";
-    private final static String SQL_GetUserByUsername = "select id from users where name = ?";
     private final static String SQL_GetUserByLogin = "select id from users where login = ?";
     private final static String SQL_GetUserById = "select name, photo, date from users where id = ?";
     private final static String SQL_ValidateUser = "select id from users where login = ? and password = ?";
@@ -52,13 +51,6 @@ public class UsersDao {
         return st.executeQuery().next();
     }
 
-    public boolean usernameReserved(String name) throws SQLException {
-        PreparedStatement st = con.prepareStatement(SQL_GetUserByUsername);
-        st.setString(1, name);
-        return st.executeQuery().next();
-    }
-
-    //refactor!
     public boolean loginReserved(String login) throws SQLException {
         PreparedStatement st = con.prepareStatement(SQL_GetUserByLogin);
         st.setString(1, login);

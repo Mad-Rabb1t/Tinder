@@ -1,17 +1,18 @@
-package app;
-
+package app.servlets;
 
 
 import app.Dao.LikesDao;
 import app.Dao.UsersDao;
+import app.entities.User;
+import app.utils.CheckAction;
+import app.utils.CookieFilter;
+import app.utils.TemplateEngine;
 import lombok.SneakyThrows;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
 
@@ -53,8 +54,12 @@ public class ProfilesServlet extends HttpServlet {
         int action = CheckAction.check(req.getParameter("Button"));
         if (likesDao.getLikedIdsByUser(who).contains(whom)) {
             likesDao.modifyAction(who, whom, action);
+        } else likesDao.add(who, whom, action);
+        if (usersAmount == usersCounter) {
+            resp.sendRedirect("/liked");
+            usersCounter = 0;
         }
-        else likesDao.add(who, whom, action);
-        resp.sendRedirect(usersAmount == usersCounter ? "/liked" : "/users");
+        else resp.sendRedirect("/users");
+
     }
 }
