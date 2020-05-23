@@ -1,10 +1,13 @@
 package app;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import javax.servlet.DispatcherType;
 import java.sql.Connection;
+import java.util.EnumSet;
 
 public class ServerApp {
     public static void main(String[] args) throws Exception {
@@ -26,6 +29,10 @@ public class ServerApp {
         handler.addServlet(new ServletHolder(new LikedServlet(engine, con)), "/liked");
         handler.addServlet(new ServletHolder(new MessagesServlet(engine, con)), "/messages");
         handler.addServlet(new ServletHolder(new ReferenceServlet("css")), "/css/*");
+        handler.addFilter(new FilterHolder(new CookieFilter()), "/users", EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieFilter()), "/liked", EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieFilter()), "/messages", EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieFilter()), "/logout", EnumSet.of(DispatcherType.REQUEST));
         server.setHandler(handler);
 
         server.start();
