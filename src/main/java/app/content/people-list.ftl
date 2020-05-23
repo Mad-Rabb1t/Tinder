@@ -44,7 +44,7 @@
                                         You liked this user!
                                     </td>
                                     <td  class="align-middle">
-                                        Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
+                                        Last Login:  ${likedUser.date}<br><small class="text-muted"></small>
                                     </td>
                                     <td class="align-middle">
                                         <form method="post">

@@ -33,14 +33,17 @@ public class MessagesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         MessagesDao messagesDao = new MessagesDao(con);
-        if (!req.getParameter("Action").equals("_&_X Æ A-12_&_")) {
-            String message = req.getParameter("Action");
+        String action = req.getParameter("Action");
+        if (action.equals("⟳") || action.equals("")) {
+            String id = req.getParameter("id");
+            resp.sendRedirect("messages?id=" + id);
+        } else if(action.equals("_&_X Æ A-12_&_")){
+            resp.sendRedirect("/liked");
+        } else {
             int from = CookieFilter.getCurrentUserId(req);
             int to = Integer.parseInt(req.getParameter("userId"));
-            messagesDao.add(from, to, message);
+            messagesDao.add(from, to, action);
             resp.sendRedirect("/messages?id=" + to);
-        } else {
-            resp.sendRedirect("/liked");
         }
     }
 }

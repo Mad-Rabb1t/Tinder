@@ -23,26 +23,25 @@
         <div class="chat-main col-6 offset-3">
             <div class="col-md-12 chat-header">
                 <div class="row header-one text-white p-1">
-                    <form method="post">
-                    <div class="col-md-6 name pl-2">
-                        <i class="fa fa-comment"></i>
-                        <input readonly type="hidden" name="userId" value="${user.id}">
-                        <h6 class="ml-1 mb-0">${user.name}</h6>
+                    <div class="col-md-6 name pl-3">
+                        <h5 class="ml-1 mb-2"><i class="fa fa-comment" style="font-size: large"></i> ${user.name}</h5>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
+                        <form method="post">
                         <button class="btn btn-outline-danger" name="Action" value="_&_X Æ A-12_&_">
                         <i class="fa fa-times text-center pt-1"></i>
                         </button>
+                        </form>
                     </div>
-                    </form>
                 </div>
                 <div class="row header-two w-100">
                     <div class="col-md-6 options-left pl-1">
                         <i class="fa fa-video-camera mr-3"></i>
-                        <i class="fa fa-user-plus"></i>
                     </div>
                     <div class="col-md-6 options-right text-right pr-2">
-                        <i class="fa fa-cog"></i>
+                        <form method="post">
+                        <button class="btn btn-sm " name="Action" value="⟳"><i class="fa">⟳</i></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -122,16 +121,14 @@
                         <div class="col-md-2 options-left">
                             <i class="fa fa-smile-o"></i>
                         </div>
-                        <form method="post">
                         <div class="col-md-7 pl-0">
+                            <form method="post">
                             <label>
+                                <input readonly type="hidden" name="userId" value="${user.id}">
                                 <input type="text" name="Action" class="border-0" placeholder="Send message" />
                             </label>
-                            <button class="btn btn-outline-success float-right" > Send </button>
-                        </div>
-                        </form>
-                        <div class="col-md-3 text-right options-right">
-                            <i class="fa fa-picture-o mr-2"></i>
+                                <button class="btn btn-sm btn-outline-success float-right " > Send </button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ public class ServerApp {
 
         // Remove before deployment!!!
         String USER_NAME = "postgres";
-        String PASSWORD = "syun99";
+        String PASSWORD = "postgres";
         String URL = "jdbc:postgresql://localhost:5432/postgres";
         DbSetup.execute(URL, USER_NAME, PASSWORD);
         Connection con = DbSetup.createConnection(URL, USER_NAME, PASSWORD);

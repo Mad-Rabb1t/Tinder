@@ -19,7 +19,7 @@ public class UsersDao {
     private final static String SQL_getAllUsers = "select * from users";
     private final static String SQL_GetUserByUsername = "select id from users where name = ?";
     private final static String SQL_GetUserByLogin = "select id from users where login = ?";
-    private final static String SQL_GetUserById = "select name, photo from users where id = ?";
+    private final static String SQL_GetUserById = "select name, photo, date from users where id = ?";
     private final static String SQL_ValidateUser = "select id from users where login = ? and password = ?";
     private final static String SQL_AddUser = "insert into users (login, password, name, photo) values (?, ?, ?, ?)";
     private final static String SQL_SetLastLogin = "update users set date = ? where id = ? ";
@@ -37,7 +37,8 @@ public class UsersDao {
                     new User(
                             rs.getInt("id"),
                             rs.getString("name"),
-                            rs.getString("photo")
+                            rs.getString("photo"),
+                            rs.getString("date")
                     )
             );
         }
@@ -77,7 +78,9 @@ public class UsersDao {
         st.setInt(1, id);
         ResultSet rs = st.executeQuery();
         rs.next();
-        return new User(id, rs.getString("name"), rs.getString("photo"));
+        String date = rs.getString("date");
+        return new User(id, rs.getString("name"), rs.getString("photo"),
+                date == null ? "Never" : date);
     }
 
     public void add(String login, String pass, String name, String photo) throws SQLException {

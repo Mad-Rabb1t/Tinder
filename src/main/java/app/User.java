@@ -10,6 +10,7 @@ public class User {
     public int id;
     public String name;
     public String photo;
+    public String date;
 
 //    public User(int id, String name, String photo) {
 //        this.id = id;
