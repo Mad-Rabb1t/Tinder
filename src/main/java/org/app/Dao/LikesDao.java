@@ -1,4 +1,4 @@
-package app.Dao;
+package org.app.Dao;
 
 import lombok.SneakyThrows;
 

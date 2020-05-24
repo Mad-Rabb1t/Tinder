@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp ./target/classes:target/deps/* org.app.ServerApp
+web: java $JAVA_OPTS -cp ./target/classes:target/deps/* org.org.app.ServerApp

@@ -1,14 +1,14 @@
-package app.entities;
+package org.app.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 @Data
 @AllArgsConstructor
-public class User {
+public class Message {
     public int id;
-    public String name;
-    public String photo;
+    public int from;
+    public int to;
+    public String text;
     public String date;
 }

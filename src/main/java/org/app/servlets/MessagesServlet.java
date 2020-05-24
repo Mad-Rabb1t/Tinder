@@ -1,10 +1,10 @@
-package app.servlets;
+package org.app.servlets;
 
-import app.Dao.MessagesDao;
-import app.Dao.UsersDao;
-import app.entities.Message;
-import app.utils.CookieFilter;
-import app.utils.TemplateEngine;
+import org.app.Dao.MessagesDao;
+import org.app.Dao.UsersDao;
+import org.app.entities.Message;
+import org.app.utils.CookieFilter;
+import org.app.utils.TemplateEngine;
 import lombok.SneakyThrows;
 
 import javax.servlet.http.HttpServlet;

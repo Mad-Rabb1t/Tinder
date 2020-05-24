@@ -1,7 +1,7 @@
-package app.servlets;
+package org.app.servlets;
 
-import app.Dao.UsersDao;
-import app.utils.CookieFilter;
+import org.app.Dao.UsersDao;
+import org.app.utils.CookieFilter;
 import lombok.SneakyThrows;
 
 import javax.servlet.http.Cookie;
