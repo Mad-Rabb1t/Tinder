@@ -25,7 +25,7 @@ public class ServerApp {
         DbSetup.execute(URL, USER_NAME, PASSWORD);
         Connection con = DbSetup.createConnection(URL);
 
-        TemplateEngine engine = TemplateEngine.folder("src/main/java/org.app/content");
+        TemplateEngine engine = TemplateEngine.folder("src/main/java/org/app/content");
         handler.addServlet(new ServletHolder(new LoginServlet(engine, con)), "/login");
         handler.addServlet(new ServletHolder(new LogoutServlet(con)), "/logout");
         handler.addServlet(new ServletHolder(new RegistrationServlet(engine, con)), "/registration");
