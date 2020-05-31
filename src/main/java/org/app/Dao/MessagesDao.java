@@ -1,6 +1,6 @@
-package app.Dao;
+package org.app.Dao;
 
-import app.entities.Message;
+import org.app.entities.Message;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

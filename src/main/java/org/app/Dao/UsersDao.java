@@ -1,7 +1,7 @@
-package app.Dao;
+package org.app.Dao;
 
 
-import app.entities.User;
+import org.app.entities.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,9 +1,10 @@
-package app;
+package org.app;
 
-import app.servlets.*;
-import app.utils.CookieFilter;
-import app.utils.DbSetup;
-import app.utils.TemplateEngine;
+import org.app.servlets.*;
+import org.app.utils.CookieFilter;
+import org.app.utils.DbSetup;
+import org.app.utils.HerokuEnv;
+import org.app.utils.TemplateEngine;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -15,17 +16,16 @@ import java.util.EnumSet;
 
 public class ServerApp {
     public static void main(String[] args) throws Exception {
-        Server server = new Server(9000);
+        Server server = new Server(HerokuEnv.port());
         ServletContextHandler handler = new ServletContextHandler();
 
-        // Remove before deployment!!!
-        String USER_NAME = "postgres";
-        String PASSWORD = "postgres";
-        String URL = "jdbc:postgresql://localhost:5432/postgres";
+        String USER_NAME = HerokuEnv.jdbc_username();
+        String PASSWORD = HerokuEnv.jdbc_password();
+        String URL = HerokuEnv.jdbc_url();
         DbSetup.execute(URL, USER_NAME, PASSWORD);
-        Connection con = DbSetup.createConnection(URL, USER_NAME, PASSWORD);
+        Connection con = DbSetup.createConnection(URL);
 
-        TemplateEngine engine = TemplateEngine.folder("src/main/java/app/content");
+        TemplateEngine engine = TemplateEngine.folder("src/main/java/org/app/content");
         handler.addServlet(new ServletHolder(new LoginServlet(engine, con)), "/login");
         handler.addServlet(new ServletHolder(new LogoutServlet(con)), "/logout");
         handler.addServlet(new ServletHolder(new RegistrationServlet(engine, con)), "/registration");
