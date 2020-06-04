@@ -34,10 +34,14 @@ public class ServerApp {
         handler.addServlet(new ServletHolder(new MessagesServlet(engine, con)), "/messages");
         handler.addServlet(new ServletHolder(new ReferenceServlet("css")), "/css/*");
         handler.addServlet(new ServletHolder(new ReferenceServlet("img")), "/img/*");
+        handler.addServlet(new ServletHolder(new RedirectServlet()), "");
+        handler.addServlet(new ServletHolder(new RedirectServlet()), "/*");
         handler.addFilter(new FilterHolder(new CookieFilter()), "/users", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/liked", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/messages", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/logout", EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieFilter()), "", EnumSet.of(DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
         server.setHandler(handler);
 
         server.start();
