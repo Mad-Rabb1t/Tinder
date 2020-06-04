@@ -1,6 +1,7 @@
 package org.app.servlets;
 
 import org.app.Dao.UsersDao;
+import org.app.utils.EncodeDecode;
 import org.app.utils.TemplateEngine;
 import lombok.SneakyThrows;
 
@@ -15,6 +16,7 @@ public class LoginServlet extends HttpServlet {
 
     private final TemplateEngine engine;
     private final Connection con;
+    private static EncodeDecode encodeDecode = new EncodeDecode();
 
     public LoginServlet(TemplateEngine engine, Connection con) {
         this.con = con;
@@ -27,8 +29,8 @@ public class LoginServlet extends HttpServlet {
         String errorMes = "Incorrect login or password";
         try {
             String error = req.getParameter("error");
-            if(error.equals("true"))
-            data.put("error", errorMes);
+            if (error.equals("true"))
+                data.put("error", errorMes);
         } catch (NullPointerException ex) {
             data.put("error", "");
         }
@@ -38,12 +40,12 @@ public class LoginServlet extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        if(req.getParameter("button").equals("signin")) {
+        if (req.getParameter("button").equals("signin")) {
             String login = req.getParameter("login");
             String pass = req.getParameter("password");
             UsersDao dao = new UsersDao(con);
             if (dao.credentialsCorrect(login, pass)) {
-                Cookie c = new Cookie("userId", String.valueOf(dao.getUserId(login)));
+                Cookie c = new Cookie("userId", encodeDecode.encrypt(String.valueOf(dao.getUserId(login))));
                 c.setMaxAge(60 * 60 * 2);
                 resp.addCookie(c);
                 resp.sendRedirect("/users");
