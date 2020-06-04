@@ -11,14 +11,16 @@ import java.util.Optional;
 
 public class CookieFilter implements Filter {
 
+    private static EncodeDecode encodeDecode = new EncodeDecode();
+
     public static int getCurrentUserId(HttpServletRequest req) {
         String userId = getCookie(req)
                 .map(Cookie::getValue)
                 .orElse("-1");
-        return Integer.parseInt(userId);
+        return Integer.parseInt(encodeDecode.decrypt(userId));
     }
 
-    public static Optional<Cookie> getCookie(HttpServletRequest req){
+    public static Optional<Cookie> getCookie(HttpServletRequest req) {
         return Arrays.stream(req.getCookies())
                 .filter(c -> c.getName().equals("userId"))
                 .findFirst();
@@ -39,10 +41,9 @@ public class CookieFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (isHttp(request) && isCookieOk((HttpServletRequest)request)) {
+        if (isHttp(request) && isCookieOk((HttpServletRequest) request)) {
             chain.doFilter(request, response);
-        }
-        else ((HttpServletResponse)response).sendRedirect("/login");
+        } else ((HttpServletResponse) response).sendRedirect("/login");
     }
 
     @Override
