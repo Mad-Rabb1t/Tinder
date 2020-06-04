@@ -1,7 +1,7 @@
 package org.app.servlets;
 
-import org.app.Dao.MessagesDao;
-import org.app.Dao.UsersDao;
+import org.app.dao.MessagesDao;
+import org.app.dao.UsersDao;
 import org.app.entities.Message;
 import org.app.utils.CookieFilter;
 import org.app.utils.TemplateEngine;
