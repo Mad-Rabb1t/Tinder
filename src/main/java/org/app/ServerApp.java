@@ -40,8 +40,6 @@ public class ServerApp {
         handler.addFilter(new FilterHolder(new CookieFilter()), "/liked", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/messages", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/logout", EnumSet.of(DispatcherType.REQUEST));
-        handler.addFilter(new FilterHolder(new CookieFilter()), "", EnumSet.of(DispatcherType.REQUEST));
-        handler.addFilter(new FilterHolder(new CookieFilter()), "/*", EnumSet.of(DispatcherType.REQUEST));
         server.setHandler(handler);
 
         server.start();

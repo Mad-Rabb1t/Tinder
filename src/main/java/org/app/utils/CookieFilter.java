@@ -1,6 +1,8 @@
 package org.app.utils;
 
 
+import lombok.extern.log4j.Log4j2;
+
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -8,16 +10,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
-
+@Log4j2
 public class CookieFilter implements Filter {
 
     private static EncodeDecode encodeDecode = new EncodeDecode();
 
     public static int getCurrentUserId(HttpServletRequest req) {
-        String userId = getCookie(req)
-                .map(Cookie::getValue)
-                .orElse("-1");
-        return Integer.parseInt(encodeDecode.decrypt(userId));
+        try {
+            String userId = getCookie(req)
+                    .map(Cookie::getValue)
+                    .orElseThrow(IllegalArgumentException::new);
+            return Integer.parseInt(encodeDecode.decrypt(userId));
+        } catch (IllegalArgumentException ex) {
+            log.error("No currently logged in user found!");
+            return -1;
+        }
     }
 
     public static Optional<Cookie> getCookie(HttpServletRequest req) {
@@ -30,7 +37,7 @@ public class CookieFilter implements Filter {
         return request instanceof HttpServletRequest;
     }
 
-    private boolean isCookieOk(HttpServletRequest request) {
+    public static boolean isCookieOk(HttpServletRequest request) {
         return getCookie(request).isPresent();
     }
 

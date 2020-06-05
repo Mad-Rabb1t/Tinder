@@ -1,5 +1,7 @@
 package org.app.servlets;
 
+import org.app.utils.CookieFilter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +18,11 @@ public class RedirectServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    resp.sendRedirect("/users");
+    if (CookieFilter.isCookieOk(req)) {
+      resp.sendRedirect("/users");
+    } else {
+      resp.sendRedirect("/login");
+    }
   }
 
 }
