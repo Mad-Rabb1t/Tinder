@@ -7,15 +7,13 @@ import org.app.entities.Message;
 import org.app.utils.CookieFilter;
 import org.app.utils.TemplateEngine;
 import lombok.SneakyThrows;
+import org.postgresql.util.PSQLException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Log4j2
 public class MessagesServlet extends HttpServlet {
@@ -46,6 +44,9 @@ public class MessagesServlet extends HttpServlet {
             engine.render("chat.ftl", data, resp);
         } catch (NumberFormatException ex) {
             log.error("Illegal parameter of user id in messages servlet");
+            resp.sendRedirect("/liked");
+        } catch (PSQLException e) {
+            log.error("No user with such id in db");
             resp.sendRedirect("/liked");
         }
     }
