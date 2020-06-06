@@ -1,5 +1,6 @@
 package org.app.servlets;
 
+import lombok.extern.log4j.Log4j2;
 import org.app.dao.LikesDao;
 import org.app.dao.UsersDao;
 import org.app.entities.User;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@Log4j2
 public class LikedServlet extends HttpServlet {
     private final TemplateEngine engine;
     private final Connection con;
@@ -34,7 +36,7 @@ public class LikedServlet extends HttpServlet {
                     try {
                         return usersDao.getUserById(ids);
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.error("SQL exception caught");
                     }
                     throw new RuntimeException();
                 }).collect(Collectors.toList());
