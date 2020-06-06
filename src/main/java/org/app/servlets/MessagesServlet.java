@@ -32,17 +32,22 @@ public class MessagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         UsersDao usersDao = new UsersDao(con);
         MessagesDao messagesDao = new MessagesDao(con);
-        int userId = Integer.parseInt(req.getParameter("id"));
-        int currentUserId = CookieFilter.getCurrentUserId(req);
+        try {
+            int userId = Integer.parseInt(req.getParameter("id"));
+            int currentUserId = CookieFilter.getCurrentUserId(req);
 
-        List<Message> allMessages = new ArrayList<>(messagesDao.getMessages(currentUserId, userId));
-        allMessages.addAll(messagesDao.getMessages(userId, currentUserId));
-        allMessages.sort(Comparator.comparingInt(m -> m.id));
+            List<Message> allMessages = new ArrayList<>(messagesDao.getMessages(currentUserId, userId));
+            allMessages.addAll(messagesDao.getMessages(userId, currentUserId));
+            allMessages.sort(Comparator.comparingInt(m -> m.id));
 
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("user", usersDao.getUserById(userId));
-        data.put("allMessages", allMessages);
-        engine.render("chat.ftl", data, resp);
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("user", usersDao.getUserById(userId));
+            data.put("allMessages", allMessages);
+            engine.render("chat.ftl", data, resp);
+        } catch (NumberFormatException ex) {
+            log.error("Illegal parameter of user id in messages servlet");
+            resp.sendRedirect("/liked");
+        }
     }
 
     @SneakyThrows
@@ -61,7 +66,7 @@ public class MessagesServlet extends HttpServlet {
                 int to = Integer.parseInt(req.getParameter("userId"));
                 messagesDao.add(from, to, action);
                 resp.sendRedirect("/messages?id=" + to);
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 log.error("Illegal parameter of user id in messages servlet");
                 resp.sendRedirect("/liked");
             }
