@@ -20,7 +20,7 @@ public class ReferenceServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String filename = req.getPathInfo();
-    String osFileLocation = "src/main/java/org/app/content";
+    String osFileLocation = "src/main/resources/content";
     Path path = Paths.get(osFileLocation, subPath, filename);
     try (OutputStream os = resp.getOutputStream()) {
       Files.copy(path, os);
