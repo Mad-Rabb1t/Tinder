@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class LikedServlet extends HttpServlet {
                     Optional<User> userOptional;
                     try {
                         userOptional = Optional.of(usersDao.getUserById(ids));
-                    } catch (PSQLException e) {
+                    } catch (SQLException e) {
                         log.error("No user with such id in db");
                         userOptional = Optional.empty();
                     }
