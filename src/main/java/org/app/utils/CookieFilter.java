@@ -22,15 +22,20 @@ public class CookieFilter implements Filter {
                     .orElseThrow(IllegalArgumentException::new);
             return Integer.parseInt(encodeDecode.decrypt(userId));
         } catch (IllegalArgumentException ex) {
-            log.error("No currently logged in user found!");
+            log.info("No currently logged in user found!");
             return -1;
         }
     }
 
     public static Optional<Cookie> getCookie(HttpServletRequest req) {
-        return Arrays.stream(req.getCookies())
-                .filter(c -> c.getName().equals("userId"))
-                .findFirst();
+        try {
+            return Arrays.stream(req.getCookies())
+                    .filter(c -> c.getName().equals("userId"))
+                    .findFirst();
+        } catch (NullPointerException ex) {
+            log.info("No cookies found!");
+            return Optional.empty();
+        }
     }
 
     private boolean isHttp(ServletRequest request) {

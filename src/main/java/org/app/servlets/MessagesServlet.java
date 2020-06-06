@@ -1,5 +1,6 @@
 package org.app.servlets;
 
+import lombok.extern.log4j.Log4j2;
 import org.app.dao.MessagesDao;
 import org.app.dao.UsersDao;
 import org.app.entities.Message;
@@ -16,6 +17,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+@Log4j2
 public class MessagesServlet extends HttpServlet {
     private final TemplateEngine engine;
     private final Connection con;
@@ -54,10 +56,15 @@ public class MessagesServlet extends HttpServlet {
         } else if(action.equals("_&_X Æ A-12_&_")){
             resp.sendRedirect("/liked");
         } else {
-            int from = CookieFilter.getCurrentUserId(req);
-            int to = Integer.parseInt(req.getParameter("userId"));
-            messagesDao.add(from, to, action);
-            resp.sendRedirect("/messages?id=" + to);
+            try {
+                int from = CookieFilter.getCurrentUserId(req);
+                int to = Integer.parseInt(req.getParameter("userId"));
+                messagesDao.add(from, to, action);
+                resp.sendRedirect("/messages?id=" + to);
+            } catch (Exception ex) {
+                log.error("Illegal parameter of user id in messages servlet");
+                resp.sendRedirect("/liked");
+            }
         }
     }
 }
