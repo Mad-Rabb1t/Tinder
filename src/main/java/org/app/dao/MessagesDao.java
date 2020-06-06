@@ -1,4 +1,4 @@
-package org.app.Dao;
+package org.app.dao;
 
 import org.app.entities.Message;
 

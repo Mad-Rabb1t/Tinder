@@ -1,6 +1,6 @@
 package org.app.servlets;
 
-import org.app.Dao.UsersDao;
+import org.app.dao.UsersDao;
 import org.app.utils.TemplateEngine;
 import lombok.SneakyThrows;
 

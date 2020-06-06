@@ -1,12 +1,14 @@
 package org.app.servlets;
 
-import org.app.Dao.LikesDao;
-import org.app.Dao.UsersDao;
+import lombok.extern.log4j.Log4j2;
+import org.app.dao.LikesDao;
+import org.app.dao.UsersDao;
 import org.app.entities.User;
 import org.app.utils.CookieFilter;
 import org.app.utils.TemplateEngine;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.postgresql.util.PSQLException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +18,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @AllArgsConstructor
+@Log4j2
 public class LikedServlet extends HttpServlet {
     private final TemplateEngine engine;
     private final Connection con;
@@ -31,13 +36,17 @@ public class LikedServlet extends HttpServlet {
 
         List<User> likedUsers = likesDao.getLikedIdsByUser(CookieFilter.getCurrentUserId(req))
                 .stream().map(ids -> {
+                    Optional<User> userOptional;
                     try {
-                        return usersDao.getUserById(ids);
+                        userOptional = Optional.of(usersDao.getUserById(ids));
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.error("No user with such id in db");
+                        userOptional = Optional.empty();
                     }
-                    throw new RuntimeException();
-                }).collect(Collectors.toList());
+                    return userOptional;
+                })
+                .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
+                .collect(Collectors.toList());
 
         HashMap<String, Object> data = new HashMap<>();
         data.put("likedUsers", likedUsers);

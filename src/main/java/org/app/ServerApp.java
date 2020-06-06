@@ -25,7 +25,7 @@ public class ServerApp {
         DbSetup.execute(URL, USER_NAME, PASSWORD);
         Connection con = DbSetup.createConnection(URL);
 
-        TemplateEngine engine = TemplateEngine.folder("src/main/java/org/app/content");
+        TemplateEngine engine = TemplateEngine.folder("src/main/resources/content");
         handler.addServlet(new ServletHolder(new LoginServlet(engine, con)), "/login");
         handler.addServlet(new ServletHolder(new LogoutServlet(con)), "/logout");
         handler.addServlet(new ServletHolder(new RegistrationServlet(engine, con)), "/registration");
@@ -34,6 +34,8 @@ public class ServerApp {
         handler.addServlet(new ServletHolder(new MessagesServlet(engine, con)), "/messages");
         handler.addServlet(new ServletHolder(new ReferenceServlet("css")), "/css/*");
         handler.addServlet(new ServletHolder(new ReferenceServlet("img")), "/img/*");
+        handler.addServlet(new ServletHolder(new RedirectServlet()), "");
+        handler.addServlet(new ServletHolder(new RedirectServlet()), "/*");
         handler.addFilter(new FilterHolder(new CookieFilter()), "/users", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/liked", EnumSet.of(DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieFilter()), "/messages", EnumSet.of(DispatcherType.REQUEST));

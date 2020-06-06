@@ -1,8 +1,8 @@
 package org.app.servlets;
 
 
-import org.app.Dao.LikesDao;
-import org.app.Dao.UsersDao;
+import org.app.dao.LikesDao;
+import org.app.dao.UsersDao;
 import org.app.entities.User;
 import org.app.utils.CheckAction;
 import org.app.utils.CookieFilter;

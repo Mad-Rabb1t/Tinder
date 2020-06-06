@@ -1,21 +1,21 @@
 package org.app.servlets;
 
-import org.app.Dao.MessagesDao;
-import org.app.Dao.UsersDao;
+import lombok.extern.log4j.Log4j2;
+import org.app.dao.MessagesDao;
+import org.app.dao.UsersDao;
 import org.app.entities.Message;
 import org.app.utils.CookieFilter;
 import org.app.utils.TemplateEngine;
 import lombok.SneakyThrows;
+import org.postgresql.util.PSQLException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
+@Log4j2
 public class MessagesServlet extends HttpServlet {
     private final TemplateEngine engine;
     private final Connection con;
@@ -30,17 +30,25 @@ public class MessagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         UsersDao usersDao = new UsersDao(con);
         MessagesDao messagesDao = new MessagesDao(con);
-        int userId = Integer.parseInt(req.getParameter("id"));
-        int currentUserId = CookieFilter.getCurrentUserId(req);
+        try {
+            int userId = Integer.parseInt(req.getParameter("id"));
+            int currentUserId = CookieFilter.getCurrentUserId(req);
 
-        List<Message> allMessages = new ArrayList<>(messagesDao.getMessages(currentUserId, userId));
-        allMessages.addAll(messagesDao.getMessages(userId, currentUserId));
-        allMessages.sort(Comparator.comparingInt(m -> m.id));
+            List<Message> allMessages = new ArrayList<>(messagesDao.getMessages(currentUserId, userId));
+            allMessages.addAll(messagesDao.getMessages(userId, currentUserId));
+            allMessages.sort(Comparator.comparingInt(m -> m.id));
 
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("user", usersDao.getUserById(userId));
-        data.put("allMessages", allMessages);
-        engine.render("chat.ftl", data, resp);
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("user", usersDao.getUserById(userId));
+            data.put("allMessages", allMessages);
+            engine.render("chat.ftl", data, resp);
+        } catch (NumberFormatException ex) {
+            log.error("Illegal parameter of user id in messages servlet");
+            resp.sendRedirect("/liked");
+        } catch (PSQLException e) {
+            log.error("No user with such id in db");
+            resp.sendRedirect("/liked");
+        }
     }
 
     @SneakyThrows
@@ -54,10 +62,15 @@ public class MessagesServlet extends HttpServlet {
         } else if(action.equals("_&_X Æ A-12_&_")){
             resp.sendRedirect("/liked");
         } else {
-            int from = CookieFilter.getCurrentUserId(req);
-            int to = Integer.parseInt(req.getParameter("userId"));
-            messagesDao.add(from, to, action);
-            resp.sendRedirect("/messages?id=" + to);
+            try {
+                int from = CookieFilter.getCurrentUserId(req);
+                int to = Integer.parseInt(req.getParameter("userId"));
+                messagesDao.add(from, to, action);
+                resp.sendRedirect("/messages?id=" + to);
+            } catch (NumberFormatException ex) {
+                log.error("Illegal parameter of user id in messages servlet");
+                resp.sendRedirect("/liked");
+            }
         }
     }
 }
